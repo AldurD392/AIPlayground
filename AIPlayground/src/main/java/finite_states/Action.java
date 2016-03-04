@@ -17,8 +17,24 @@ public class Action {
      */
     public final float cost;
 
+    /**
+     * The simplest action.
+     *
+     * @param name A human readable name for this action.
+     * @param cost A cost associated to the action.
+     */
     public Action(@NotNull String name, float cost) {
         this.name = name;
         this.cost = cost;
+    }
+
+    /**
+     * The simplest action.
+     *
+     * @param name A human readable name for this action.
+     */
+    public Action(@NotNull String name) {
+        this.name = name;
+        this.cost = 1;
     }
 }

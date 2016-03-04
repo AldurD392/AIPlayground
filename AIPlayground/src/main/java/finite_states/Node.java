@@ -22,9 +22,23 @@ public class Node {
     @Nullable
     public final Action parent_action;
 
+    /**
+     * Count the depth of this node from the root.
+     */
     public final int depth;
+
+    /**
+     * The weight of the path from the root to this node.
+     */
     public final float weight;
 
+    /**
+     * Build a node, given a state, a parent node and an action (leading here from the parent).
+     *
+     * @param state A state for this node.
+     * @param parent A parent for this node.
+     * @param parent_action An action leading from the parent to this node.
+     */
     public Node(@NotNull State state, @Nullable Node parent, @Nullable Action parent_action) {
         this.state = state;
         this.parent = parent;
