@@ -1,8 +1,8 @@
 package finite_states;
 
+import exceptions.BadFrontierClass;
 import exceptions.UnsolvableProblem;
 import finite_states.frontiers.Frontier;
-import finite_states.frontiers.MinHeap;
 import finite_states.problems.Problem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,23 +24,46 @@ public class GoalBasedAgent extends Agent {
     /**
      * Keep the number of explored states.
      */
-    private int explored_states = -1;
+    private long explored_states = -1;
+
+    /**
+     * The maximum tree-depth allowed while searching for solutions.
+     */
+    public int depth_limit = Integer.MAX_VALUE;
 
     @NotNull
-    private final Frontier frontier = new MinHeap();  // TODO: make me better.
+    private final Class<? extends Frontier> frontier_class;
 
     /**
      * Build a new agent, starting from an instance of problem.
      *
      * @param problem The problem to be solved.
+     * @param frontier_class The class of the Frontier to be used while searching.
      */
-    public GoalBasedAgent(@NotNull Problem problem) {
+    public GoalBasedAgent(@NotNull Problem problem,
+                          @NotNull Class<? extends Frontier> frontier_class) {
         super(problem);
+        this.frontier_class = frontier_class;
+    }
+
+    /**
+     * Instantiate a `Frontier` from the given class.
+     *
+     * @return A `Frontier` object.
+     * @throws BadFrontierClass On bad `Frontier` class.
+     */
+    private Frontier instantiateFrontierFromClass() throws BadFrontierClass {
+        try {
+            return this.frontier_class.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new BadFrontierClass("Error while instantiating frontier.");
+        }
+
     }
 
     @Override
     @Nullable
-    public Action nextAction() throws UnsolvableProblem {
+    public Action nextAction() throws UnsolvableProblem, BadFrontierClass {
         /* On first run, this method will explore the possible states space in order to find a solution. */
         if (this.actions_sequence == null) {
             this.actions_sequence = searchSolutionInTree();
@@ -58,7 +81,10 @@ public class GoalBasedAgent extends Agent {
      *
      * @return A (possibly null) sequence of actions, leading from the initial state to the goal.
      */
-    protected @Nullable ArrayList<Action> searchSolutionInTree() {
+    protected @Nullable ArrayList<Action> searchSolutionInTree() throws BadFrontierClass {
+        assert this.depth_limit >= 0;
+        final Frontier frontier = this.instantiateFrontierFromClass();
+
         final Node initial_node = new Node(this.initial_state);
         frontier.add(initial_node);
 
@@ -82,6 +108,10 @@ public class GoalBasedAgent extends Agent {
 
                 this.explored_states = explored.size();
                 return action_sequence;
+            }
+
+            if (current_node.depth >= depth_limit) {
+                continue;
             }
 
             explored.add(current_node.state);

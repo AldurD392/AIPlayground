@@ -1,5 +1,6 @@
 package finite_states;
 
+import exceptions.RuntimeException;
 import exceptions.UnsolvableProblem;
 import finite_states.problems.Problem;
 import org.apache.logging.log4j.LogManager;
@@ -48,10 +49,11 @@ public abstract class Agent {
      * Return the next action to be performed by the agent.
      *
      * @throws UnsolvableProblem: If there is no way to arrive to the goal from the current state.
+     * @throws RuntimeException: On a generic runtime error.
      * @return The next action to be performed or null if the agent has arrived to a solution.
      */
     @Nullable
-    public abstract Action nextAction() throws UnsolvableProblem;
+    public abstract Action nextAction() throws UnsolvableProblem, RuntimeException;
 
     /**
      * Format the sequence of actions to the solution as a string.
@@ -60,26 +62,27 @@ public abstract class Agent {
      */
     @NotNull
     public String solutionToString() {
-        StringBuilder solution = new StringBuilder("\n");
+        StringBuilder output = new StringBuilder("\n");
 
         try {
             int i = 1;
 
             Action next;
             while ((next = this.nextAction()) != null) {
-                solution.append(String.format("%d. %s.\n", i++, next.name));
+                output.append(String.format("%d. %s.\n", i++, next.name));
             }
-
         } catch (UnsolvableProblem e) {
-            solution.append(e.toString());
+            output.append(e.toString());
+        } catch (RuntimeException e) {
+            return e.toString();
         }
 
         final String stats = this.statsToString();
         if (stats != null) {
-            solution.insert(1, stats + "\n");
+            output.insert(1, stats + "\n");
         }
 
-        return solution.toString();
+        return output.toString();
     }
 
     /**
