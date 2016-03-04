@@ -1,8 +1,9 @@
-package finite_states;
+package finite_states.agents;
 
 import exceptions.RuntimeException;
 import exceptions.UnsolvableProblem;
-import finite_states.agents.Action;
+import finite_states.State;
+import finite_states.Action;
 import finite_states.problems.Problem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,8 +24,7 @@ public abstract class Agent {
     /**
      * Keep track of the initial state of the problem.
      */
-    @NotNull
-    public final State initial_state;
+    public final @NotNull State initial_state;
 
     /**
      * Build a new agent, starting from an instance of problem.
