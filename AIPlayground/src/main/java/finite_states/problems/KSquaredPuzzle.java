@@ -183,15 +183,6 @@ public class KSquaredPuzzle extends Problem implements Heuristic {
         @Override
         public String toString() {
             return Arrays.toString(this.puzzle);
-            /*
-            final int[][] matrix = new int[k][k];
-
-            for (int i = 0; i < k * k; i++) {
-                matrix[i / k][i % k] = this.puzzle[i];
-            }
-
-            return Arrays.deepToString(matrix);
-            */
         }
     }
 }
