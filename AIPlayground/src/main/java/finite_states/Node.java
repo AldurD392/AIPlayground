@@ -1,5 +1,6 @@
 package finite_states;
 
+import finite_states.agents.Action;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,8 +20,7 @@ public class Node implements Comparable<Node> {
     /**
      * A node may have an `Action`, connecting it to the `parent`.
      */
-    @Nullable
-    public final Action parent_action;
+    public final @Nullable Action parent_action;
 
     /**
      * Count the depth of this node from the root.

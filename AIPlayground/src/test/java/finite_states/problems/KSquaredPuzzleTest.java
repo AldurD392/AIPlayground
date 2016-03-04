@@ -1,6 +1,6 @@
 package finite_states.problems;
 
-import finite_states.Action;
+import finite_states.agents.Action;
 import finite_states.State;
 import junit.framework.TestCase;
 

@@ -2,6 +2,7 @@ package finite_states;
 
 import exceptions.RuntimeException;
 import exceptions.UnsolvableProblem;
+import finite_states.agents.Action;
 import finite_states.problems.Problem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

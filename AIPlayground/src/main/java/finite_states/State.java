@@ -1,5 +1,6 @@
 package finite_states;
 
+import finite_states.agents.Action;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;

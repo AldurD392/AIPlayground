@@ -1,4 +1,4 @@
-import finite_states.GoalBasedAgent;
+import finite_states.agents.GoalBasedAgent;
 import finite_states.frontiers.MinHeap;
 import finite_states.problems.KSquaredPuzzle;
 import finite_states.problems.Problem;

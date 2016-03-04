@@ -1,4 +1,4 @@
-package finite_states;
+package finite_states.agents;
 
 import org.jetbrains.annotations.NotNull;
 

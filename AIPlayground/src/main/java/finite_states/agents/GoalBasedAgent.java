@@ -1,7 +1,10 @@
-package finite_states;
+package finite_states.agents;
 
 import exceptions.BadFrontierClass;
 import exceptions.UnsolvableProblem;
+import finite_states.Agent;
+import finite_states.Node;
+import finite_states.State;
 import finite_states.frontiers.Frontier;
 import finite_states.problems.Problem;
 import org.apache.logging.log4j.LogManager;
