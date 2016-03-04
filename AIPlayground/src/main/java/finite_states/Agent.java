@@ -61,12 +61,6 @@ public abstract class Agent {
     public String solutionToString() {
         StringBuilder solution = new StringBuilder("\n");
 
-        final String stats = this.statsToString();
-        if (stats != null) {
-            solution.append(stats);
-            solution.append("\n");
-        }
-
         try {
             int i = 1;
 
@@ -77,6 +71,11 @@ public abstract class Agent {
 
         } catch (UnsolvableProblem e) {
             solution.append(e.toString());
+        }
+
+        final String stats = this.statsToString();
+        if (stats != null) {
+            solution.insert(1, stats + "\n");
         }
 
         return solution.toString();
