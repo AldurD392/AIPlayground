@@ -7,10 +7,11 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 
 public abstract class Agent {
-    private static final Logger logger = LogManager.getLogger(Agent.class.getSimpleName());
+    private static final Logger logger = LogManager.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
 
     /**
      * A sequence of actions from the initial state to the goal.

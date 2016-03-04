@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -18,7 +19,7 @@ import java.util.HashSet;
  */
 public class GoalBasedAgent extends Agent {
 
-    private static final Logger logger = LogManager.getLogger(Agent.class.getSimpleName());
+    private static final Logger logger = LogManager.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
 
     /**
      * Keep the number of explored states.
