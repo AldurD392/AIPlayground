@@ -87,6 +87,17 @@ public class GoalBasedAgent extends Agent {
     }
 
     /**
+     * Allow subclasses to perform custom modification on the node.
+     *
+     * @param node The node to be modified.
+     * @return An instance of Node.
+     */
+    @NotNull
+    protected Node postProcessNode(Node node) {
+        return node;
+    }
+
+    /**
      * Explore the spaces tree in order to find a suitable solution to the problem.
      *
      * @return A (possibly null) sequence of actions, leading from the initial state to the goal.
@@ -112,7 +123,7 @@ public class GoalBasedAgent extends Agent {
 
                 Node node = current_node;
                 while (node.parent != null) {
-                    action_sequence.add(0, node.parent_action);
+                    action_sequence.add(0, node.arriving_action);
                     node = node.parent;
                 }
 
@@ -126,12 +137,13 @@ public class GoalBasedAgent extends Agent {
 
             explored.add(current_node.state);
             for (Action a : current_state.getActions()) {
-                final Node child = new Node(current_state.performAction(a), current_node, a);
+                Node child = new Node(current_state.performAction(a), current_node, a);
 
                 if (explored.contains(child.state)) {
                     continue;
                 }
 
+                child = this.postProcessNode(child);
                 frontier.add(child);
             }
         }

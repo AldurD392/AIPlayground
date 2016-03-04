@@ -19,7 +19,7 @@ public class Node implements Comparable<Node> {
     /**
      * A node may have an `Action`, connecting it to the `parent`.
      */
-    public final @Nullable Action parent_action;
+    public final @Nullable Action arriving_action;
 
     /**
      * Count the depth of this node from the root.
@@ -29,24 +29,24 @@ public class Node implements Comparable<Node> {
     /**
      * The weight of the path from the root to this node.
      */
-    public final float weight;
+    public float weight;
 
     /**
      * Build a node, given a state, a parent node and an action (leading here from the parent).
      *
      * @param state A state for this node.
      * @param parent A parent for this node.
-     * @param parent_action An action leading from the parent to this node.
+     * @param arriving_action An action leading from the parent to this node.
      */
-    public Node(@NotNull State state, @Nullable Node parent, @Nullable Action parent_action) {
+    public Node(@NotNull State state, @Nullable Node parent, @Nullable Action arriving_action) {
         this.state = state;
         this.parent = parent;
-        this.parent_action = parent_action;
+        this.arriving_action = arriving_action;
 
-        assert (parent == null && parent_action == null) || (parent != null && parent_action != null);
+        assert (parent == null && arriving_action == null) || (parent != null && arriving_action != null);
         if (parent != null) {
             this.depth = parent.depth + 1;
-            this.weight = parent.weight + parent_action.cost;
+            this.weight = parent.weight + arriving_action.cost;
         } else {
             this.depth = 0;
             this.weight = 0;

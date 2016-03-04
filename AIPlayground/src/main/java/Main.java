@@ -1,13 +1,13 @@
-import finite_states.agents.IterativeGoalBasedAgent;
-import finite_states.frontiers.LIFO;
+import finite_states.frontiers.MinHeap;
+import finite_states.frontiers.UtilityBasedAgent;
 import finite_states.problems.KSquaredPuzzle;
 import finite_states.problems.Problem;
 
 public class Main {
     public static void main(String [ ] args) {
         Problem kSquaredProblem = new KSquaredPuzzle("3x3 puzzle", 3);
-        IterativeGoalBasedAgent simpleAgent = new IterativeGoalBasedAgent(kSquaredProblem, LIFO.class);
-        simpleAgent.max_depth_increase = 20;
+        UtilityBasedAgent simpleAgent = new UtilityBasedAgent(kSquaredProblem, MinHeap.class);
+        simpleAgent.cost_to_node = true;
         System.out.println(simpleAgent.solutionToString());
     }
 }
