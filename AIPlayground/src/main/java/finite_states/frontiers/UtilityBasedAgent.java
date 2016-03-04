@@ -6,6 +6,8 @@ import finite_states.heuristics.Heuristic;
 import finite_states.problems.Problem;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.InvalidClassException;
+
 /**
  * An agent based on utility.
  * Modifies, according to some functions, the weight of the nodes that
@@ -24,14 +26,15 @@ public class UtilityBasedAgent extends GoalBasedAgent {
     /**
      * Build a new agent, starting from an instance of problem.
      *
-     * @param problem        The problem to be solved.
+     * @param problem        The problem to be solved. This object must implement the Heuristic interface.
      * @param frontier_class The class of the Frontier to be used while searching.
      */
-    public UtilityBasedAgent(@NotNull Problem problem, @NotNull Class<? extends Frontier> frontier_class) {
+    public UtilityBasedAgent(@NotNull Problem problem, @NotNull Class<? extends Frontier> frontier_class) throws InvalidClassException {
         super(problem, frontier_class);
 
-        // TODO: change Problem to a better type!
-        assert problem instanceof Heuristic;
+        if (problem instanceof Heuristic == false) {
+            throw new InvalidClassException("The problem must implement the Heuristic interface.");
+        }
     }
 
     @Override
