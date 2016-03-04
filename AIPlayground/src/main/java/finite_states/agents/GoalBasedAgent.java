@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * An agent that explores a deterministic and completely known world, whose states are finite.
@@ -27,8 +28,7 @@ public class GoalBasedAgent extends Agent {
     /**
      * A sequence of actions from the initial state to the goal.
      */
-    @Nullable
-    protected ArrayList<Action> actions_sequence;
+    protected @Nullable List<Action> actions_sequence;
 
 
     /**

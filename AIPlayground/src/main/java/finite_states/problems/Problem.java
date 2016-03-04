@@ -4,6 +4,7 @@ import finite_states.State;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A generic problem instance.
@@ -22,8 +23,7 @@ public abstract class Problem {
     /**
      * A set of objective goals.
      */
-    @NotNull
-    public final HashSet<State> goals;
+    public final @NotNull Set<State> goals;
 
     protected Problem(@NotNull String name) {
         this.name = name;
