@@ -35,4 +35,18 @@ public class KSquaredPuzzleTest extends TestCase {
         assertFalse(actions.contains(KSquaredPuzzle.DOWN));
         assertFalse(actions.contains(KSquaredPuzzle.RIGHT));
     }
+
+    public void testHeuristic() {
+        KSquaredPuzzle.KSquaredState goal_state = (KSquaredPuzzle.KSquaredState) puzzle.goals.iterator().next();
+        assertEquals(puzzle.getHeuristicValue(goal_state), 0.0, 0.0);
+
+        KSquaredPuzzle.KSquaredState new_state = (KSquaredPuzzle.KSquaredState)goal_state.performAction(KSquaredPuzzle.UP);
+        assertEquals(puzzle.getHeuristicValue(new_state), 1.0, 0.0);
+
+        new_state = (KSquaredPuzzle.KSquaredState)new_state.performAction(KSquaredPuzzle.UP);
+        assertEquals(puzzle.getHeuristicValue(new_state), 2.0, 0.0);
+
+        new_state = (KSquaredPuzzle.KSquaredState)new_state.performAction(KSquaredPuzzle.LEFT);
+        assertEquals(puzzle.getHeuristicValue(new_state), 3.0, 0.0);
+    }
 }

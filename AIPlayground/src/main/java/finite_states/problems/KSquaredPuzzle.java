@@ -2,6 +2,7 @@ package finite_states.problems;
 
 import finite_states.Action;
 import finite_states.State;
+import finite_states.heuristics.Heuristic;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -9,7 +10,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.stream.IntStream;
 
-public class KSquaredPuzzle extends Problem {
+public class KSquaredPuzzle extends Problem implements Heuristic {
     /**
      * The dimension of the puzzle.
      */
@@ -49,6 +50,28 @@ public class KSquaredPuzzle extends Problem {
         assert this.k > 0;
         // TODO: make sure to return a solvable puzzle!
         return new KSquaredState(true);
+    }
+
+    /**
+     * Calculate the Manhattan distance for a given value and its current position.
+     *
+     * @param value The value of interest.
+     * @param current_position The current position of the value.
+     * @return A value greater or equal to 0.
+     */
+    private int manhattan(int value, int current_position) {
+        assert value != 0;
+        final int delta = Math.abs((value - 1 - current_position));
+        return (delta / k) + (delta % k);
+    }
+
+    @Override
+    public float getHeuristicValue(State state) {
+        assert state instanceof KSquaredState;
+        final KSquaredState squaredState = (KSquaredState) state;
+        return IntStream.range(0, squaredState.puzzle.length)
+                .filter(i -> squaredState.puzzle[i] != 0)
+                .map(i -> manhattan(squaredState.puzzle[i], i)).sum();
     }
 
     public class KSquaredState extends State {
