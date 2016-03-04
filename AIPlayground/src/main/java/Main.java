@@ -1,5 +1,5 @@
 import finite_states.frontiers.MinHeap;
-import finite_states.frontiers.UtilityBasedAgent;
+import finite_states.agents.UtilityBasedAgent;
 import finite_states.problems.KSquaredPuzzle;
 import finite_states.problems.Problem;
 

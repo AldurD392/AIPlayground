@@ -1,7 +1,8 @@
-package finite_states.frontiers;
+package finite_states.agents;
 
 import finite_states.Node;
 import finite_states.agents.GoalBasedAgent;
+import finite_states.frontiers.Frontier;
 import finite_states.heuristics.Heuristic;
 import finite_states.problems.Problem;
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +13,7 @@ import java.io.InvalidClassException;
  * An agent based on utility.
  * Modifies, according to some functions, the weight of the nodes that
  * are being processed, before adding them to the Frontier.
+ * The agent represents the algorithms: Best-First Greedy, A*.
  */
 public class UtilityBasedAgent extends GoalBasedAgent {
 

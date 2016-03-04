@@ -15,6 +15,7 @@ import java.lang.invoke.MethodHandles;
 /**
  * An agent that, iteratively, tries looking for solutions
  * at greater depth.
+ * The agent represents the algorithms: Limited-DFS, Limited-BFS, Iterative-Deepening-DFS, Iterative-Deepening-BFS.
  */
 public class IterativeGoalBasedAgent extends GoalBasedAgent {
 

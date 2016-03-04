@@ -20,6 +20,7 @@ import java.util.List;
 /**
  * An agent that explores a deterministic and completely known world, whose states are finite.
  * Its actions are based on a specific goal.
+ * The agent represents the algorithms: DFS, BFS, Min-Cost.
  */
 public class GoalBasedAgent extends Agent {
 
