@@ -1,8 +1,8 @@
 package finite_states;
 
 import exceptions.UnsolvableProblem;
-import finite_states.frontiers.FIFO;
 import finite_states.frontiers.Frontier;
+import finite_states.frontiers.MinHeap;
 import finite_states.problems.Problem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,7 +26,7 @@ public class GoalBasedAgent extends Agent {
     private int explored_states = -1;
 
     @NotNull
-    private final Frontier frontier = new FIFO();  // TODO: make me better.
+    private final Frontier frontier = new MinHeap();  // TODO: make me better.
 
     /**
      * Build a new agent, starting from an instance of problem.

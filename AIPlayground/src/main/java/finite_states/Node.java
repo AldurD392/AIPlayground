@@ -3,7 +3,7 @@ package finite_states;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class Node {
+public class Node implements Comparable<Node> {
     /**
      * A node refers to a specific state.
      */
@@ -70,5 +70,10 @@ public class Node {
     @Override
     public int hashCode() {
         return state.hashCode();
+    }
+
+    @Override
+    public int compareTo(@NotNull Node o) {
+        return Float.compare(this.weight, o.weight);
     }
 }
