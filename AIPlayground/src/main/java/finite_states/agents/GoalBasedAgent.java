@@ -25,6 +25,13 @@ public class GoalBasedAgent extends Agent {
     private static final Logger logger = LogManager.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
 
     /**
+     * A sequence of actions from the initial state to the goal.
+     */
+    @Nullable
+    protected ArrayList<Action> actions_sequence;
+
+
+    /**
      * Keep the number of explored states.
      */
     private long explored_states = -1;
@@ -130,7 +137,6 @@ public class GoalBasedAgent extends Agent {
         }
 
         this.explored_states = explored.size();
-        assert explored.size() > 0;
         return null;
     }
 
