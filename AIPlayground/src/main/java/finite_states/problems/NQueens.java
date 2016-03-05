@@ -44,8 +44,27 @@ public class NQueens extends Problem {
 
     @Override
     public boolean isGoal(@NotNull State state) {
-        // TODO: implement me!
-        return false;
+        if (!(state instanceof NQueensState)) {
+            assert false;  // This is a mistake, alert the developer.
+            return false;
+        }
+        NQueensState qState = (NQueensState)state;
+
+        // Check that the queen is on a different row.
+        if (Arrays.stream(qState.positions).distinct().count() < n) {
+            return false;
+        }
+
+        // Be sure that queens are on different diagonal segments.
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (Math.abs(qState.positions[i] - qState.positions[j]) == j - i) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     @Override
@@ -97,7 +116,7 @@ public class NQueens extends Problem {
          * An array keeping representing columns of the chessboard.
          * Values of this array represent the row of the i-th queen.
          */
-        private final int[] positions;
+        public final int[] positions;
 
         /**
          * Generate a random configuration for the queens.
