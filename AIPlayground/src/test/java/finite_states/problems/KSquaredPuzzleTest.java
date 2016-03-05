@@ -5,6 +5,7 @@ import finite_states.State;
 import junit.framework.TestCase;
 import junitx.util.PrivateAccessor;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
 public class KSquaredPuzzleTest extends TestCase {
@@ -47,5 +48,21 @@ public class KSquaredPuzzleTest extends TestCase {
 
         new_state = (KSquaredPuzzle.KSquaredState)new_state.performAction(KSquaredPuzzle.LEFT);
         assertEquals(puzzle.getHeuristicValue(new_state), 3.0, 0.0);
+    }
+
+    public void testIsSolvable() throws Throwable {
+        final KSquaredPuzzle.KSquaredState goal_state = (KSquaredPuzzle.KSquaredState) PrivateAccessor.getField(puzzle, "goal");
+        assertTrue(puzzle.isSolvable(goal_state));
+
+        final int[] unsolvable_puzzle = goal_state.puzzle.clone();
+        unsolvable_puzzle[(k * k) - 2] = (k * k) - 2;
+        unsolvable_puzzle[(k * k) - 3] = (k * k) - 1;
+
+        final Constructor<KSquaredPuzzle.KSquaredState> constructor =
+                KSquaredPuzzle.KSquaredState.class.getDeclaredConstructor(KSquaredPuzzle.class, int[].class, int.class, Action.class);
+        constructor.setAccessible(true);
+        final KSquaredPuzzle.KSquaredState unsolvable_state =
+                constructor.newInstance(puzzle, unsolvable_puzzle, (k * k) - 1, KSquaredPuzzle.LEFT);
+        assertFalse(puzzle.isSolvable(unsolvable_state));
     }
 }

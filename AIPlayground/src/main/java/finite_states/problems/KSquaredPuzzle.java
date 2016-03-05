@@ -37,7 +37,12 @@ public class KSquaredPuzzle extends Problem implements Heuristic {
     /**
      * For performance, keep a fixed reference to the only goal state fot this puzzle.
      */
-    private final State goal;
+    private final KSquaredState goal;
+
+    /**
+     * Allow to specify if generated random instances have to be solvable.
+     */
+    public boolean solvable_only = true;
 
     public KSquaredPuzzle(@NotNull String name, int k) {
         super(name);
@@ -56,8 +61,13 @@ public class KSquaredPuzzle extends Problem implements Heuristic {
     @Override
     public @NotNull State buildRandomState() {
         assert this.k > 0;
-        // TODO: make sure to return a solvable puzzle!
-        return new KSquaredState(true);
+
+        KSquaredState state = new KSquaredState(true);
+        while (solvable_only & !this.isSolvable(state)) {
+            state = new KSquaredState(true);
+        }
+
+        return state;
     }
 
     /**
@@ -68,13 +78,46 @@ public class KSquaredPuzzle extends Problem implements Heuristic {
      * @return A value greater or equal to 0.
      */
     private int manhattan(int value, int current_position) {
-        assert value != 0;
+        assert value >= 0;
+        if (value == 0) value = k * k;
         final int delta = Math.abs((value - 1 - current_position));
         return (delta / k) + (delta % k);
     }
 
+    /**
+     * Return true if the given state represents a solvable puzzle.
+     *
+     * @param state The state to be tested.
+     * @return True if the state can be solved.
+     */
+    public boolean isSolvable(@NotNull KSquaredState state) {
+        final int[] standard_order = this.goal.puzzle.clone();
+        final int[] permutation = state.puzzle.clone();
+
+        standard_order[standard_order.length - 1] = k * k;
+
+        int zero_index = -1;
+        for (int i = 0; i < permutation.length; i++) {
+            if (permutation[i] == 0) {
+                permutation[i] = k * k;
+                zero_index = i;
+            }
+        }
+
+        int parity = 0;
+        for (int i = 0; i < standard_order.length; i++) {
+            for (int j = 0; j < standard_order.length; j++) {
+                if (standard_order[i] < standard_order[j] && permutation[i] > permutation[j]) {
+                    parity++;
+                }
+            }
+        }
+
+        return (parity + manhattan(0, zero_index)) % 2 == 0;
+    }
+
     @Override
-    public float getHeuristicValue(State state) {
+    public float getHeuristicValue(@NotNull State state) {
         assert state instanceof KSquaredState;
         final KSquaredState squaredState = (KSquaredState) state;
         return IntStream.range(0, squaredState.puzzle.length)
