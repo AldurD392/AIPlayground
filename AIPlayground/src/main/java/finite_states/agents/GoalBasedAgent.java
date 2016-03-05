@@ -119,7 +119,7 @@ public class GoalBasedAgent extends Agent {
             logger.debug("Current state: {}.", current_state);
 
             // We have found a way to the objective state.
-            if (this.problem.goals.contains(current_state))  {
+            if (this.problem.isGoal(current_state))  {
                 final ArrayList<Action> action_sequence = new ArrayList<>();
 
                 Node node = current_node;

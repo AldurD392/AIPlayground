@@ -36,13 +36,23 @@ public class KSquaredPuzzle extends Problem implements Heuristic {
      */
     public final static Action RIGHT = new Action("Right");
 
+    /**
+     * For performance, keep a fixed reference to the only goal state fot this puzzle.
+     */
+    private final State goal;
+
     public KSquaredPuzzle(@NotNull String name, int k) {
         super(name);
 
         assert k > 0;
         this.k = k;
 
-        this.goals.add(new KSquaredState(false));
+        this.goal = new KSquaredState(false);
+    }
+
+    @Override
+    public boolean isGoal(@NotNull State state) {
+        return this.goal.equals(state);
     }
 
     @Override

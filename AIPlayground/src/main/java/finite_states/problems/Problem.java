@@ -3,9 +3,6 @@ package finite_states.problems;
 import finite_states.State;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * A generic problem instance.
  *
@@ -20,14 +17,8 @@ public abstract class Problem {
     @NotNull
     public final String name;
 
-    /**
-     * A set of objective goals.
-     */
-    public final @NotNull Set<State> goals;
-
     protected Problem(@NotNull String name) {
         this.name = name;
-        this.goals = new HashSet<>();
     }
 
     /**
@@ -39,4 +30,12 @@ public abstract class Problem {
      */
     @NotNull
     public abstract State buildRandomState();
+
+    /**
+     * Is the given state a goal for this problem?
+     *
+     * @param state The state to be tested.
+     * @return True if this state is a goal.
+     */
+    public abstract boolean isGoal(@NotNull State state);
 }

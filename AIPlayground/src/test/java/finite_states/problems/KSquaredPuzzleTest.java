@@ -3,6 +3,7 @@ package finite_states.problems;
 import finite_states.Action;
 import finite_states.State;
 import junit.framework.TestCase;
+import junitx.util.PrivateAccessor;
 
 import java.util.HashSet;
 
@@ -12,23 +13,21 @@ public class KSquaredPuzzleTest extends TestCase {
     public final static String PUZZLE_TEST_NAME = "test_puzzle";
     public final KSquaredPuzzle puzzle = new KSquaredPuzzle(PUZZLE_TEST_NAME, k);
 
-    public void testGoalState() {
-        assertEquals(puzzle.goals.size(), 1);
-        for (State g : puzzle.goals) {
-            assertEquals(g.getClass(), KSquaredPuzzle.KSquaredState.class);
-            KSquaredPuzzle.KSquaredState squared = (KSquaredPuzzle.KSquaredState)g;
+    public void testGoalState() throws NoSuchFieldException {
+        State g = (State) PrivateAccessor.getField(puzzle, "goal");
+        assertEquals(g.getClass(), KSquaredPuzzle.KSquaredState.class);
+        KSquaredPuzzle.KSquaredState squared = (KSquaredPuzzle.KSquaredState)g;
 
-            int i;
-            for (i = 0; i < (k * k) - 1; i++) {
-                assertEquals(i + 1, squared.puzzle[i]);
-            }
-
-            assertEquals(squared.puzzle[i], 0);
+        int i;
+        for (i = 0; i < (k * k) - 1; i++) {
+            assertEquals(i + 1, squared.puzzle[i]);
         }
+
+        assertEquals(squared.puzzle[i], 0);
     }
 
-    public void testGetActions() {
-        KSquaredPuzzle.KSquaredState goal_state = (KSquaredPuzzle.KSquaredState) puzzle.goals.iterator().next();
+    public void testGetActions() throws NoSuchFieldException {
+        State goal_state = (State) PrivateAccessor.getField(puzzle, "goal");
         final HashSet<Action> actions = goal_state.getActions();
 
         assertEquals(actions.size(), 2);
@@ -36,8 +35,8 @@ public class KSquaredPuzzleTest extends TestCase {
         assertFalse(actions.contains(KSquaredPuzzle.RIGHT));
     }
 
-    public void testHeuristic() {
-        KSquaredPuzzle.KSquaredState goal_state = (KSquaredPuzzle.KSquaredState) puzzle.goals.iterator().next();
+    public void testHeuristic() throws NoSuchFieldException {
+        KSquaredPuzzle.KSquaredState goal_state = (KSquaredPuzzle.KSquaredState) PrivateAccessor.getField(puzzle, "goal");
         assertEquals(puzzle.getHeuristicValue(goal_state), 0.0, 0.0);
 
         KSquaredPuzzle.KSquaredState new_state = (KSquaredPuzzle.KSquaredState)goal_state.performAction(KSquaredPuzzle.UP);

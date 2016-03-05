@@ -34,7 +34,6 @@ public abstract class Agent {
     public Agent(@NotNull Problem problem) {
         this.problem = problem;
         logger.info("Creating new agent '{}' for problem named: '{}'.", this.getClass().getSimpleName(), problem.name);
-        assert this.problem.goals.size() > 0;
         logger.debug("Gathering initial state from problem instance...", problem.name);
         this.initial_state = problem.buildRandomState();
     }
