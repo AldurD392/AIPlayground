@@ -1,7 +1,6 @@
 package finite_states.agents;
 
 import finite_states.Node;
-import finite_states.agents.GoalBasedAgent;
 import finite_states.frontiers.Frontier;
 import finite_states.heuristics.Heuristic;
 import finite_states.problems.Problem;
@@ -34,7 +33,7 @@ public class UtilityBasedAgent extends GoalBasedAgent {
     public UtilityBasedAgent(@NotNull Problem problem, @NotNull Class<? extends Frontier> frontier_class) throws InvalidClassException {
         super(problem, frontier_class);
 
-        if (problem instanceof Heuristic == false) {
+        if (!(problem instanceof Heuristic)) {
             throw new InvalidClassException("The problem must implement the Heuristic interface.");
         }
     }
@@ -42,12 +41,10 @@ public class UtilityBasedAgent extends GoalBasedAgent {
     @Override
     protected @NotNull Node postProcessNode(Node node) {
         Heuristic problem = (Heuristic)this.problem;
-        float h = problem.getHeuristicValue(node.state);
 
+        node.weight = problem.getHeuristicValue(node.state);
         if (cost_to_node) {
-            node.weight += h;
-        } else {
-            node.weight = h;
+            node.weight += node.path_cost;
         }
 
         return node;

@@ -27,7 +27,13 @@ public class Node implements Comparable<Node> {
     public final int depth;
 
     /**
-     * The weight of the path from the root to this node.
+     * The cost of the path from the root to this node.
+     */
+    public final float path_cost;
+
+    /**
+     * The weight of this node.
+     * By default, it is equal to the `path_cost`.
      */
     public float weight;
 
@@ -46,11 +52,13 @@ public class Node implements Comparable<Node> {
         assert (parent == null && arriving_action == null) || (parent != null && arriving_action != null);
         if (parent != null) {
             this.depth = parent.depth + 1;
-            this.weight = parent.weight + arriving_action.cost;
+            this.path_cost = parent.path_cost + arriving_action.cost;
         } else {
             this.depth = 0;
-            this.weight = 0;
+            this.path_cost = 0;
         }
+
+        this.weight = this.path_cost;
     }
 
     public Node(@NotNull State state) {
