@@ -62,7 +62,7 @@ public class NQueens extends Problem {
             Collections.shuffle(Arrays.asList(numbers));
             assert numbers.length == n;
 
-            for (int i = 0; i < n * n; i++) {
+            for (int i = 0; i < n; i++) {
                 this.positions[i] = numbers[i];
             }
         }
@@ -73,7 +73,7 @@ public class NQueens extends Problem {
          * @param positions The current position of the queens.
          * @param action    The action to be performed.
          */
-        public NQueensState(int[] positions, @NotNull Action action) {
+        private NQueensState(int[] positions, @NotNull Action action) {
             // TODO: Return a new state given specified action.
             this.positions = positions;
         }
