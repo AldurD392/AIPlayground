@@ -5,9 +5,7 @@ import finite_states.State;
 import finite_states.heuristics.Heuristic;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public class KSquaredPuzzle extends Problem implements Heuristic {
@@ -160,8 +158,8 @@ public class KSquaredPuzzle extends Problem implements Heuristic {
         }
 
         @Override
-        public @NotNull HashSet<Action> getActions() {
-            final HashSet<Action> actions = new HashSet<>();
+        public @NotNull List<Action> getActions() {
+            final List<Action> actions = new ArrayList<>(2);
 
             if (empty_i / k != 0) actions.add(UP);  // First row
             if (empty_i / k != k - 1) actions.add(DOWN);  // Last row

@@ -5,7 +5,7 @@ import finite_states.State;
 import junit.framework.TestCase;
 import junitx.util.PrivateAccessor;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 public class KSquaredPuzzleTest extends TestCase {
 
@@ -28,7 +28,7 @@ public class KSquaredPuzzleTest extends TestCase {
 
     public void testGetActions() throws NoSuchFieldException {
         State goal_state = (State) PrivateAccessor.getField(puzzle, "goal");
-        final HashSet<Action> actions = goal_state.getActions();
+        final ArrayList<Action> actions = (ArrayList<Action>)goal_state.getActions();
 
         assertEquals(actions.size(), 2);
         assertFalse(actions.contains(KSquaredPuzzle.DOWN));
