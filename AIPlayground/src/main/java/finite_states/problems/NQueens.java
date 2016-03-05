@@ -4,9 +4,9 @@ import finite_states.Action;
 import finite_states.State;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.stream.IntStream;
 
 /**
@@ -20,11 +20,26 @@ public class NQueens extends Problem {
      */
     public final int n;
 
-    protected NQueens(@NotNull String name, int n) {
+    /**
+     * The possible actions, for each puzzle instance, are finite.
+     * Generate them once and for all.
+     */
+    private final NQueensAction[][] possible_actions;
+
+    public NQueens(@NotNull String name, int n) {
         super(name);
 
         assert n > 0;
         this.n = n;
+
+        possible_actions = new NQueensAction[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                possible_actions[i][j] = new NQueensAction(
+                        String.format("Queen #%d in row %d", j, i), i, j
+                );
+            }
+        }
     }
 
     @Override
@@ -36,6 +51,40 @@ public class NQueens extends Problem {
     @Override
     public @NotNull State buildRandomState() {
         return new NQueensState();
+    }
+
+    /**
+     * An action, for this problem, consists of moving a single queen through
+     * her column on the chessboard, up to a specified row.
+     */
+    public class NQueensAction extends Action {
+
+        /**
+         * The index of the queen to be moved.
+         */
+        public final int column;
+
+        /**
+         * The index on which the queen will be moved.
+         */
+        public final int row;
+
+        /**
+         * An Action for the NQueens problem.
+         *
+         * @param name A human readable name for this action.
+         * @param row The row to which selected queen will be moved.
+         * @param column The column selecting the queen to be moved.
+         */
+        public NQueensAction(@NotNull String name, int row, int column) {
+            super(name, 1);
+
+            assert row < n;
+            assert column < n;
+
+            this.row = row;
+            this.column = column;
+        }
     }
 
     /**
@@ -57,7 +106,7 @@ public class NQueens extends Problem {
             positions = new int[n];
 
             Integer[] numbers;
-            numbers = IntStream.rangeClosed(0, positions.length)
+            numbers = IntStream.range(0, positions.length)
                     .boxed().toArray(Integer[]::new);
             Collections.shuffle(Arrays.asList(numbers));
             assert numbers.length == n;
@@ -74,14 +123,28 @@ public class NQueens extends Problem {
          * @param action    The action to be performed.
          */
         private NQueensState(int[] positions, @NotNull Action action) {
-            // TODO: Return a new state given specified action.
-            this.positions = positions;
+            assert Arrays.stream(positions).max().orElse(n) < n;
+            assert Arrays.stream(positions).min().orElse(-1) >= 0;
+            assert action instanceof NQueensAction;
+
+            NQueensAction qAction = (NQueensAction)action;
+            this.positions = positions.clone();
+            this.positions[qAction.column] = qAction.row;
         }
 
         @Override
-        public @NotNull HashSet<Action> getActions() {
-            // TODO: return possible actions.
-            return null;
+        public @NotNull Iterable<Action> getActions() {
+            final ArrayList<Action> actions = new ArrayList<>();
+
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (positions[j] != i) {
+                        actions.add(possible_actions[i][j]);
+                    }
+                }
+            }
+
+            return actions;
         }
 
         @Override
