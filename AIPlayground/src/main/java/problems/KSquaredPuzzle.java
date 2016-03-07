@@ -1,8 +1,7 @@
-package finite_states.problems;
+package problems;
 
-import finite_states.Action;
-import finite_states.State;
-import finite_states.heuristics.Heuristic;
+import problem_elements.Action;
+import problem_elements.State;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;

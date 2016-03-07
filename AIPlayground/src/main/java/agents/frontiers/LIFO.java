@@ -1,14 +1,14 @@
-package finite_states.frontiers;
+package agents.frontiers;
 
-import finite_states.Node;
+import problem_elements.Node;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * First-in-first-out frontier.
+ * Last-in-first-out frontier.
  *
  * Ignore already contained states.
  */
-public class FIFO extends Queue {
+public class LIFO extends Queue {
     @Nullable
     public Node pick() {
         if (!this._frontier.isEmpty()) {

@@ -1,7 +1,7 @@
-package finite_states.frontiers;
+package agents.frontiers;
 
-import finite_states.Node;
-import finite_states.State;
+import problem_elements.Node;
+import problem_elements.State;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package finite_states.problems;
+package problems;
 
 import junit.framework.TestCase;
 

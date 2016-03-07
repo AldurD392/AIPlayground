@@ -1,6 +1,6 @@
-package finite_states.heuristics;
+package problems;
 
-import finite_states.State;
+import problem_elements.State;
 
 /**
  * An heuristic.

@@ -1,12 +1,13 @@
-package finite_states.agents;
+package agents.finite_states_agents;
 
+import agents.Agent;
 import exceptions.BadFrontierClass;
 import exceptions.UnsolvableProblem;
-import finite_states.Action;
-import finite_states.Node;
-import finite_states.State;
-import finite_states.frontiers.Frontier;
-import finite_states.problems.Problem;
+import problem_elements.Action;
+import problem_elements.Node;
+import problem_elements.State;
+import agents.frontiers.Frontier;
+import problems.Problem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;

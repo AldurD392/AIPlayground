@@ -1,6 +1,6 @@
-package finite_states.frontiers;
+package agents.frontiers;
 
-import finite_states.Node;
+import problem_elements.Node;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -1,4 +1,4 @@
-package finite_states;
+package problem_elements;
 
 import org.jetbrains.annotations.NotNull;
 

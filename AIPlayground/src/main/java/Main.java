@@ -1,7 +1,7 @@
-import finite_states.agents.UtilityBasedAgent;
-import finite_states.frontiers.MinHeap;
-import finite_states.problems.KSquaredPuzzle;
-import finite_states.problems.Problem;
+import agents.finite_states_agents.UtilityBasedAgent;
+import agents.frontiers.MinHeap;
+import problems.KSquaredPuzzle;
+import problems.Problem;
 
 import java.io.InvalidClassException;
 

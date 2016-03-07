@@ -1,6 +1,6 @@
-package finite_states.problems;
+package problems;
 
-import finite_states.State;
+import problem_elements.State;
 import org.jetbrains.annotations.NotNull;
 
 /**

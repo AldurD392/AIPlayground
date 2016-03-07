@@ -1,9 +1,9 @@
-package finite_states.agents;
+package agents.finite_states_agents;
 
-import finite_states.Node;
-import finite_states.frontiers.Frontier;
-import finite_states.heuristics.Heuristic;
-import finite_states.problems.Problem;
+import problem_elements.Node;
+import agents.frontiers.Frontier;
+import problems.Heuristic;
+import problems.Problem;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InvalidClassException;

@@ -1,10 +1,10 @@
-package finite_states.agents;
+package agents;
 
 import exceptions.RuntimeException;
 import exceptions.UnsolvableProblem;
-import finite_states.State;
-import finite_states.Action;
-import finite_states.problems.Problem;
+import problem_elements.State;
+import problem_elements.Action;
+import problems.Problem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
