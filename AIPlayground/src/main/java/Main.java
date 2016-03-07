@@ -1,4 +1,4 @@
-import agents.finite_states_agents.UtilityBasedAgent;
+import agents.finite_states.UtilityBasedAgent;
 import agents.frontiers.MinHeap;
 import problems.KSquaredPuzzle;
 import problems.Problem;

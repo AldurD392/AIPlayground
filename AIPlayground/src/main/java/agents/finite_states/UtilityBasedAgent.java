@@ -1,4 +1,4 @@
-package agents.finite_states_agents;
+package agents.finite_states;
 
 import problem_elements.Node;
 import agents.frontiers.Frontier;
