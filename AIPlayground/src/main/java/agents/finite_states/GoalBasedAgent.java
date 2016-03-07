@@ -1,17 +1,16 @@
 package agents.finite_states;
 
-import agents.Agent;
+import agents.frontiers.Frontier;
 import exceptions.BadFrontierClass;
 import exceptions.UnsolvableProblem;
-import problem_elements.Action;
-import problem_elements.Node;
-import problem_elements.State;
-import agents.frontiers.Frontier;
-import problems.Problem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import problem_elements.Action;
+import problem_elements.Node;
+import problem_elements.State;
+import problems.Problem;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ import java.util.List;
  * Its actions are based on a specific goal.
  * The agent represents the algorithms: DFS, BFS, Min-Cost.
  */
-public class GoalBasedAgent extends Agent {
+public class GoalBasedAgent extends FiniteStateAgent {
 
     private static final Logger logger = LogManager.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
 

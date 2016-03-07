@@ -1,14 +1,11 @@
 package agents;
 
-import exceptions.RuntimeException;
-import exceptions.UnsolvableProblem;
-import problem_elements.State;
-import problem_elements.Action;
-import problems.Problem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import problem_elements.State;
+import problems.Problem;
 
 import java.lang.invoke.MethodHandles;
 
@@ -39,44 +36,13 @@ public abstract class Agent {
     }
 
     /**
-     * Return the next action to be performed by the agent.
+     * Allow subclasses to add comments / print the solution.
+     * Subclasses are invited to class `startToString()`.
      *
-     * @throws UnsolvableProblem: If there is no way to arrive to the goal from the current state.
-     * @throws RuntimeException: On a generic runtime error.
-     * @return The next action to be performed or null if the agent has arrived to a solution.
-     */
-    @Nullable
-    public abstract Action nextAction() throws UnsolvableProblem, RuntimeException;
-
-    /**
-     * Format the sequence of actions to the solution as a string.
-     *
-     * @return The sequence of actions to the solution as a string.
+     * @return A string describing the solution.
      */
     @NotNull
-    public String solutionToString() {
-        StringBuilder output = new StringBuilder("\n");
-
-        try {
-            int i = 1;
-
-            Action next;
-            while ((next = this.nextAction()) != null) {
-                output.append(String.format("%d. %s.\n", i++, next.name));
-            }
-        } catch (UnsolvableProblem e) {
-            output.append(e.toString());
-        } catch (RuntimeException e) {
-            return e.toString();
-        }
-
-        final String stats = this.statsToString();
-        if (stats != null) {
-            output.insert(1, stats + "\n");
-        }
-
-        return output.toString();
-    }
+    public abstract String solutionToString();
 
     /**
      * Allow the agent to return a String of statistics, printed before the steps to the solution.
