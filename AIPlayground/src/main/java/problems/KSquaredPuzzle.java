@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.stream.IntStream;
 
-public class KSquaredPuzzle extends Problem implements Heuristic {
+public class KSquaredPuzzle extends Problem implements Heuristic<KSquaredPuzzle.KSquaredState> {
     /**
      * The dimension of the puzzle.
      */
@@ -116,12 +116,10 @@ public class KSquaredPuzzle extends Problem implements Heuristic {
     }
 
     @Override
-    public float getHeuristicValue(@NotNull State state) {
-        assert state instanceof KSquaredState;
-        final KSquaredState squaredState = (KSquaredState) state;
-        return IntStream.range(0, squaredState.puzzle.length)
-                .filter(i -> squaredState.puzzle[i] != 0)
-                .map(i -> manhattan(squaredState.puzzle[i], i)).sum();
+    public float getHeuristicValue(@NotNull KSquaredState state) {
+        return IntStream.range(0, state.puzzle.length)
+                .filter(i -> state.puzzle[i] != 0)
+                .map(i -> manhattan(state.puzzle[i], i)).sum();
     }
 
     public class KSquaredState extends State {

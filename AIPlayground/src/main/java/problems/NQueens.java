@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
  * The famous N-Queens problem.
  * A solution for this problem is a
  */
-public class NQueens extends Problem implements Utility {
+public class NQueens extends Problem implements Utility<NQueens.NQueensState> {
 
     /**
      * The number of queens in play.
@@ -81,20 +81,14 @@ public class NQueens extends Problem implements Utility {
      * @return 1 on solution, something in [0, 1) otherwise.
      */
     @Override
-    public float score(@NotNull State state) {
-        if (!(state instanceof NQueensState)) {
-            assert false;  // This is a mistake, alert the developer.
-            return 0;
-        }
-        NQueensState qState = (NQueensState)state;
-
+    public float score(@NotNull NQueensState state) {
         // Numbers of queens on the same row.
-        int fighting_queens = (int)(n - Arrays.stream(qState.positions).distinct().count());
+        int fighting_queens = (int)(n - Arrays.stream(state.positions).distinct().count());
 
         // Count queens that lie on the same diagonal.
         for (int i = 0; i < n; i++) {
             for (int j = i + 1; j < n; j++) {
-                if (Math.abs(qState.positions[i] - qState.positions[j]) == j - i) {
+                if (Math.abs(state.positions[i] - state.positions[j]) == j - i) {
                     fighting_queens++;
                 }
             }

@@ -1,10 +1,11 @@
 package agents.finite_states;
 
-import problem_elements.Node;
 import agents.frontiers.Frontier;
+import org.jetbrains.annotations.NotNull;
+import problem_elements.Node;
+import problem_elements.State;
 import problems.Heuristic;
 import problems.Problem;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.InvalidClassException;
 
@@ -33,14 +34,15 @@ public class UtilityBasedAgent extends GoalBasedAgent {
     public UtilityBasedAgent(@NotNull Problem problem, @NotNull Class<? extends Frontier> frontier_class) throws InvalidClassException {
         super(problem, frontier_class);
 
-        if (!(problem instanceof Heuristic)) {
+        if (!(problem instanceof Heuristic<?>)) {
             throw new InvalidClassException("The problem must implement the Heuristic interface.");
         }
     }
 
     @Override
     protected @NotNull Node postProcessNode(Node node) {
-        Heuristic problem = (Heuristic)this.problem;
+        @SuppressWarnings("unchecked")  // We check it in the constructor.
+        Heuristic<State> problem = (Heuristic<State>) this.problem;
 
         node.weight = problem.getHeuristicValue(node.state);
         if (cost_to_node) {
