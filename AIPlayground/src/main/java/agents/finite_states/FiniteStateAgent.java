@@ -3,15 +3,26 @@ package agents.finite_states;
 import agents.Agent;
 import exceptions.RuntimeException;
 import exceptions.UnsolvableProblem;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import problem_elements.Action;
+import problem_elements.State;
 import problems.Problem;
+
+import java.lang.invoke.MethodHandles;
 
 /**
  * A generic agent working against a world where possible state have a limited number.
  */
 public abstract class FiniteStateAgent extends Agent {
+    private static final Logger logger = LogManager.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
+
+    /**
+     * Keep track of the initial state of the problem.
+     */
+    public final @NotNull State initial_state;
 
     /**
      * Build a new agent, starting from an instance of problem.
@@ -20,6 +31,9 @@ public abstract class FiniteStateAgent extends Agent {
      */
     public FiniteStateAgent(@NotNull Problem problem) {
         super(problem);
+
+        logger.debug("Gathering initial state from problem instance...", problem.name);
+        this.initial_state = problem.buildRandomState();
     }
 
     /**
