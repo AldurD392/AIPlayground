@@ -7,6 +7,7 @@ public class NQueensTest extends TestCase {
     public final int n = 4;
     public final static String PROBLEM_TEST_NAME = "test_n_queens";
     public final NQueens queens_problem = new NQueens(PROBLEM_TEST_NAME, n);
+    private final static double DELTA = 10E-5;
 
     public void testGoalState() throws NoSuchFieldException {
         NQueens.NQueensState state = (NQueens.NQueensState) queens_problem.buildRandomState();
@@ -58,20 +59,27 @@ public class NQueensTest extends TestCase {
         state.positions[1] = 3;
         state.positions[2] = 0;
         state.positions[3] = 2;
-        assertEquals(this.queens_problem.score(state), 1.0, 0.0);
+        assertEquals(this.queens_problem.score(state), 1.0, DELTA);
 
         state.positions[0] = 2;
         state.positions[1] = 1;
         state.positions[2] = 2;
         state.positions[3] = 1;
-        int fighting_queens = 5;
-        assertEquals(this.queens_problem.score(state), 1.0f - ((fighting_queens * 2) / (n * (n - 1))), 0.0);
+        double fighting_queens = 5.0f;
+        assertEquals(this.queens_problem.score(state), 1.0f - ((fighting_queens * 2) / (n * (n - 1))), DELTA);
 
         state.positions[0] = 2;
         state.positions[1] = 0;
         state.positions[2] = 2;
         state.positions[3] = 1;
-        fighting_queens = 2;
-        assertEquals(this.queens_problem.score(state), 1.0f - ((fighting_queens * 2) / (n * (n - 1))), 0.0);
+        fighting_queens = 2.0f;
+        assertEquals(this.queens_problem.score(state), 1.0f - ((fighting_queens * 2) / (n * (n - 1))), DELTA);
+
+        state.positions[0] = 3;
+        state.positions[1] = 2;
+        state.positions[2] = 0;
+        state.positions[3] = 1;
+        fighting_queens = 2.0f;
+        assertEquals(this.queens_problem.score(state), 1.0f - ((fighting_queens * 2) / (n * (n - 1))), DELTA);
     }
 }

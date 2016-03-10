@@ -83,7 +83,7 @@ public class NQueens extends Problem implements Utility<NQueens.NQueensState> {
     @Override
     public float score(@NotNull NQueensState state) {
         // Numbers of queens on the same row.
-        int fighting_queens = (int)(n - Arrays.stream(state.positions).distinct().count());
+        float fighting_queens = (float)(n - Arrays.stream(state.positions).distinct().count());
 
         // Count queens that lie on the same diagonal.
         for (int i = 0; i < n; i++) {
