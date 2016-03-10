@@ -90,21 +90,24 @@ public class GeneticAgent extends IterativeEnhancementAgent {
                     }
                 }
 
-                System.out.println(scores[arg_max]);
                 if (scores[arg_max] >= this.minimum_solution_score) {
                     return generation[arg_max];
                 }
             }
 
+            // TODO: remove array, implement Toni's idea.
             final int scores_sum = (int) (Arrays.stream(scores).sum() * 10);
             final int[] to_generation_with_score = new int[scores_sum];
 
             {
                 // Build a new array, allowing to pick elements with a probability based on their score
                 int j = 0;
+                int curr_sum_scores = 0;
                 for (int k = 0; k < scores.length; k++) {
                     double score = scores[k];
-                    for (; j < score * 10; j++) {
+                    curr_sum_scores += score * 10;
+                    assert curr_sum_scores <= scores_sum;
+                    for (; j < curr_sum_scores; j++) {
                         to_generation_with_score[j] = k;
                     }
                 }
@@ -112,22 +115,26 @@ public class GeneticAgent extends IterativeEnhancementAgent {
 
             final State[] next_generation = new State[this.population_size];
             for (int j = 0; j < this.population_size; j++) {
+                int father_index = r.nextInt(scores_sum);
+                int mother_index = r.nextInt(scores_sum);
+
                 final Object[] father = genetic_problem.getEncoding(
-                        generation[to_generation_with_score[r.nextInt(scores_sum)]]);
+                        generation[to_generation_with_score[father_index]]);
                 final Object[] mother = genetic_problem.getEncoding(
-                        generation[to_generation_with_score[r.nextInt(scores_sum)]]);
+                        generation[to_generation_with_score[mother_index]]);
                 assert father.length == mother.length;
 
-                logger.debug(Arrays.toString(father));
-                logger.debug(Arrays.toString(mother));
+                logger.debug("Father: " + Arrays.toString(father));
+                logger.debug("Mother: " + Arrays.toString(mother));
 
                 final int crossover_index = r.nextInt(father.length);
-                final Object[] child = new Object[father.length];
-                logger.debug(Arrays.toString(child));
+                final Integer[] child = new Integer[father.length];
 
                 // Crossover of mother and father
                 System.arraycopy(father, 0, child, 0, crossover_index);
                 System.arraycopy(mother, crossover_index, child, crossover_index, child.length - crossover_index);
+
+                logger.debug("Child: " + Arrays.toString(child));
 
                 State child_state = genetic_problem.encode(child);
                 final float p_mutate = r.nextFloat();
