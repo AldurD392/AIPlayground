@@ -1,24 +1,31 @@
 package problems;
 
+import org.jetbrains.annotations.NotNull;
 import problem_elements.Action;
 import problem_elements.State;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 import java.util.stream.IntStream;
 
 /**
  * The famous N-Queens problem.
  * A solution for this problem is a
  */
-public class NQueens extends Problem implements Utility<NQueens.NQueensState> {
+public class NQueens extends Problem implements Utility<NQueens.NQueensState>,
+        GeneticEncoding<NQueens.NQueensState, Integer> {
 
     /**
      * The number of queens in play.
      */
     public final int n;
+
+    /**
+     * Lazy random entropy generator for mutations.
+     */
+    private Random mutator = null;
 
     /**
      * The possible actions, for each puzzle instance, are finite.
@@ -97,6 +104,34 @@ public class NQueens extends Problem implements Utility<NQueens.NQueensState> {
         return 1.0f - (fighting_queens * 2 / (n * (n - 1)));
     }
 
+    @NotNull
+    @Override
+    public Integer[] getEncoding(@NotNull NQueensState state) {
+        return Arrays.stream(state.positions).boxed().toArray(Integer[]::new);
+    }
+
+    @NotNull
+    @Override
+    public NQueens.NQueensState encode(@NotNull Integer[] encoding) {
+        return new NQueensState(Arrays.stream(encoding).
+                mapToInt(Integer::intValue).toArray());
+    }
+
+    @NotNull
+    @Override
+    public NQueens.NQueensState mutate(@NotNull NQueensState state) {
+        if (this.mutator == null) {
+            this.mutator = new Random();
+        }
+
+        final int row = mutator.nextInt(n);
+        final int column = mutator.nextInt(n);
+
+        state.positions[row] = column;
+
+        return state;
+    }
+
     /**
      * An action, for this problem, consists of moving a single queen through
      * her column on the chessboard, up to a specified row.
@@ -158,6 +193,14 @@ public class NQueens extends Problem implements Utility<NQueens.NQueensState> {
             for (int i = 0; i < n; i++) {
                 this.positions[i] = numbers[i];
             }
+        }
+
+        /**
+         * Generate a configuration for the queens starting from their positions.
+         */
+        public NQueensState(@NotNull int[] positions) {
+            assert positions.length == n;
+            this.positions = positions.clone();
         }
 
         /**
