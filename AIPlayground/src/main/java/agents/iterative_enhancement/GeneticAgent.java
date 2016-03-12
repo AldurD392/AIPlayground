@@ -12,6 +12,7 @@ import java.io.InvalidClassException;
 import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
 /**
@@ -95,34 +96,36 @@ public class GeneticAgent extends IterativeEnhancementAgent {
                 }
             }
 
-            // TODO: remove array, implement Toni's idea.
-            final int scores_sum = (int) (Arrays.stream(scores).sum() * 10);
-            final int[] to_generation_with_score = new int[scores_sum];
-
-            {
-                // Build a new array, allowing to pick elements with a probability based on their score
-                int j = 0;
-                int curr_sum_scores = 0;
-                for (int k = 0; k < scores.length; k++) {
-                    double score = scores[k];
-                    curr_sum_scores += score * 10;
-                    assert curr_sum_scores <= scores_sum;
-                    for (; j < curr_sum_scores; j++) {
-                        to_generation_with_score[j] = k;
-                    }
-                }
-            }
+            final double scores_sum = Arrays.stream(scores).sum();
 
             final State[] next_generation = new State[this.population_size];
             for (int j = 0; j < this.population_size; j++) {
-                int father_index = r.nextInt(scores_sum);
-                int mother_index = r.nextInt(scores_sum);
+                double mother_double = ThreadLocalRandom.current().nextDouble(0, scores_sum);
+                double father_double = ThreadLocalRandom.current().nextDouble(0, scores_sum);
 
-                final Object[] father = genetic_problem.getEncoding(
-                        generation[to_generation_with_score[father_index]]);
-                final Object[] mother = genetic_problem.getEncoding(
-                        generation[to_generation_with_score[mother_index]]);
-                assert father.length == mother.length;
+                Integer[] father = null;
+                Integer[] mother = null;
+
+                for (int index = 0; index < scores.length && (mother == null || father == null); index++) {
+
+                    if (father == null){
+                        if (father_double < scores[index] || index == scores.length - 1) {
+                            father = (Integer[]) genetic_problem.getEncoding(generation[index]);
+                        } else {
+                            father_double -= scores[index];
+                        }
+                    }
+
+                    if (mother == null){
+                        if (mother_double < scores[index] || index == scores.length - 1){
+                            mother = (Integer[]) genetic_problem.getEncoding(generation[index]);
+                        } else {
+                            mother_double -= scores[index];
+                        }
+                    }
+                }
+
+                assert father != null && mother != null;
 
                 logger.debug("Father: " + Arrays.toString(father));
                 logger.debug("Mother: " + Arrays.toString(mother));
