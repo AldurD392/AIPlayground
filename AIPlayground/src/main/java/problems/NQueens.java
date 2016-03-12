@@ -1,21 +1,23 @@
 package problems;
 
+import csp.CSP;
+import csp.Variable;
 import org.jetbrains.annotations.NotNull;
 import problem_elements.Action;
 import problem_elements.State;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.IntStream;
 
 /**
  * The famous N-Queens problem.
  * A solution for this problem is a
  */
-public class NQueens extends Problem implements Utility<NQueens.NQueensState>,
-        GeneticEncoding<NQueens.NQueensState, Integer> {
+public class NQueens extends Problem implements
+        Utility<NQueens.NQueensState>,
+        GeneticEncoding<NQueens.NQueensState, Integer>,
+        CSPEncoding<Integer>
+{
 
     /**
      * The number of queens in play.
@@ -130,6 +132,25 @@ public class NQueens extends Problem implements Utility<NQueens.NQueensState>,
         state.positions[row] = column;
 
         return state;
+    }
+
+    /**
+     * @return the NQueens problem as a CSP.
+     */
+    @Override
+    public @NotNull CSP<Integer> asCSP() {
+        final List<Integer> defaultDomain = Arrays.asList(IntStream.range(0, n)
+                .boxed().toArray(Integer[]::new));
+
+        final ArrayList<Variable<Integer>> variables = new ArrayList<>(n);
+        for (int i = 0; i < n; i++) {
+            variables.add(new Variable<>(String.valueOf(i), new HashSet<>(defaultDomain)));
+        }
+
+        // TODO: build constraints for this problem.
+
+//        final CSP<Integer> csp = new CSP<>();
+        return null;
     }
 
     /**
