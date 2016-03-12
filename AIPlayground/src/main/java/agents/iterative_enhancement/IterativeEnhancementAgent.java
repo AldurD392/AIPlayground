@@ -27,4 +27,25 @@ public abstract class IterativeEnhancementAgent extends Agent {
      * @throws UnsolvableProblem if the agent can't find a solution.
      */
     public abstract @NotNull State findSolution() throws UnsolvableProblem;
+
+    @Override
+    public @NotNull String solutionToString() {
+        final StringBuilder output = new StringBuilder("\n");
+
+        try {
+            final State solution = this.findSolution();
+            output.append(String.format("%s found a solution: ", this.getClass().getSimpleName()));
+            output.append(solution.toString());
+            output.append("\n");
+        } catch (UnsolvableProblem e) {
+            output.append(e.toString());
+        }
+
+        final String stats = this.statsToString();
+        if (stats != null) {
+            output.insert(1, stats + "\n");
+        }
+
+        return output.toString();
+    }
 }

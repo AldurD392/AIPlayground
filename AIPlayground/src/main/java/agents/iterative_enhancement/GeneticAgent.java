@@ -152,25 +152,4 @@ public class GeneticAgent extends IterativeEnhancementAgent {
 
         throw new UnsolvableProblem(String.format("%s couldn't find a solution", this.getClass().getSimpleName()));
     }
-
-    @Override
-    public @NotNull String solutionToString() {
-        final StringBuilder output = new StringBuilder("\n");
-
-        try {
-            final State solution = this.findSolution();
-            output.append(String.format("%s found a solution: ", this.getClass().getSimpleName()));
-            output.append(solution.toString());
-            output.append("\n");
-        } catch (UnsolvableProblem e) {
-            output.append(e.toString());
-        }
-
-        final String stats = this.statsToString();
-        if (stats != null) {
-            output.insert(1, stats + "\n");
-        }
-
-        return output.toString();
-    }
 }
