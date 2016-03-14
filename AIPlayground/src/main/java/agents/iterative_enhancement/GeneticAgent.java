@@ -103,14 +103,13 @@ public class GeneticAgent extends IterativeEnhancementAgent {
                 double mother_double = ThreadLocalRandom.current().nextDouble(0, scores_sum);
                 double father_double = ThreadLocalRandom.current().nextDouble(0, scores_sum);
 
-                Integer[] father = null;
-                Integer[] mother = null;
+                Object[] father = null;
+                Object[] mother = null;
 
                 for (int index = 0; index < scores.length && (mother == null || father == null); index++) {
-
                     if (father == null){
                         if (father_double < scores[index] || index == scores.length - 1) {
-                            father = (Integer[]) genetic_problem.getEncoding(generation[index]);
+                            father = genetic_problem.getEncoding(generation[index]);
                         } else {
                             father_double -= scores[index];
                         }
@@ -118,7 +117,7 @@ public class GeneticAgent extends IterativeEnhancementAgent {
 
                     if (mother == null){
                         if (mother_double < scores[index] || index == scores.length - 1){
-                            mother = (Integer[]) genetic_problem.getEncoding(generation[index]);
+                            mother = genetic_problem.getEncoding(generation[index]);
                         } else {
                             mother_double -= scores[index];
                         }
@@ -131,7 +130,7 @@ public class GeneticAgent extends IterativeEnhancementAgent {
                 logger.debug("Mother: " + Arrays.toString(mother));
 
                 final int crossover_index = r.nextInt(father.length);
-                final Integer[] child = new Integer[father.length];
+                final Object[] child = new Integer[father.length];
 
                 // Crossover of mother and father
                 System.arraycopy(father, 0, child, 0, crossover_index);
