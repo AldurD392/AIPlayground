@@ -1,6 +1,7 @@
 package problems;
 
 import csp.CSP;
+import csp.Constraint;
 import csp.Variable;
 import org.jetbrains.annotations.NotNull;
 import problem_elements.Action;
@@ -147,10 +148,62 @@ public class NQueens extends Problem implements
             variables.add(new Variable<>(String.valueOf(i), new HashSet<>(defaultDomain)));
         }
 
-        // TODO: build constraints for this problem.
+        // Build a matrix of [0, n - 1] all different values.
+        final Integer[][] different_values = new Integer[n * (n - 1)][2];
+        int j = 1;
+        for (int i = 0; i < n * (n - 1); i++) {
+            different_values[i][0] = i / (n - 1);
 
-//        final CSP<Integer> csp = new CSP<>();
-        return null;
+            if (j % n == i / (n - 1)) {
+                j++;
+            }
+
+            different_values[i][1] = j++ % n;
+        }
+
+        final Set<Constraint<Integer>> constraints = new HashSet<>();
+        for (int i = 0; i < n; i++) {
+            for (j = i + 1; j < n; j++) {
+                final ArrayList<Variable<Integer>> constrained_vars = new ArrayList<>();
+                constrained_vars.add(variables.get(i));
+                constrained_vars.add(variables.get(j));
+
+                constraints.add(new Constraint<>(constrained_vars, different_values));
+            }
+        }
+
+        for (int i = 0; i < n; i++) {  // Select the first variable
+            for (j = 0; j < n; j++) {  // Select the second variable
+
+                if (i == j) {
+                    continue;
+                }
+
+                final ArrayList<Variable<Integer>> constrained_vars = new ArrayList<>();
+                constrained_vars.add(variables.get(i));
+                constrained_vars.add(variables.get(j));
+
+                int delta = Math.abs(i - j);
+                final ArrayList<Integer[]> not_diagonal_values = new ArrayList<>();
+
+                for (int k = 0; k < n; k++) {  // Select the value of the first variable
+                    for (int l = 0; l < n; l++) {  // Select the value of the second variable
+                        if (Math.abs(k - l) != delta) {
+                            not_diagonal_values.add(new Integer[]{k, l});
+                        }
+                    }
+                }
+
+                final Integer[][] not_diagonal_values_matrix = new Integer[not_diagonal_values.size()][2];
+                for (int k = 0; k < not_diagonal_values.size(); k++) {
+                    not_diagonal_values_matrix[k] = not_diagonal_values.get(k);
+                }
+
+                constraints.add(new Constraint<>(constrained_vars, not_diagonal_values_matrix));
+            }
+        }
+
+        return new CSP<>(new HashSet<>(variables), constraints);
     }
 
     /**
