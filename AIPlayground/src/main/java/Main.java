@@ -1,4 +1,4 @@
-import agents.iterative_enhancement.HillClimberAgent;
+import agents.csp.BackTrackerAgent;
 import problems.NQueens;
 import problems.Problem;
 
@@ -6,11 +6,8 @@ import java.io.InvalidClassException;
 
 public class Main {
     public static void main(String[] args) throws InvalidClassException {
-        Problem problem = new NQueens("128 Queens puzzle", 128);
-        HillClimberAgent agent = new HillClimberAgent(problem);
-        agent.is_greedy = false;
-        agent.allow_lateral_moves = true;
-        agent.maximum_steps = (int) 10E4;
+        Problem problem = new NQueens("8 Queens puzzle", 8);
+        BackTrackerAgent agent = new BackTrackerAgent(problem);
         System.out.println(agent.solutionToString());
     }
 }

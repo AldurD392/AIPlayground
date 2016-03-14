@@ -203,7 +203,7 @@ public class NQueens extends Problem implements
             }
         }
 
-        return new CSP<>(new HashSet<>(variables), constraints);
+        return new CSP<>(variables, constraints);
     }
 
     /**

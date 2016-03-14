@@ -27,7 +27,7 @@ public class Variable<T> {
      * The domain for this variable.
      */
     @NotNull
-    final public Set<T> domain;
+    public Set<T> domain;
 
     public Variable(@NotNull String name, @NotNull Set<T> domain) {
         this.name = name;
@@ -36,7 +36,7 @@ public class Variable<T> {
 
     @Override
     public String toString() {
-        return String.format("Variable '%s' with value '%s'.",
+        return String.format("%s := %s",
                 this.name, this.value);
     }
 }
