@@ -1,12 +1,10 @@
 package agents.csp;
 
-import csp.CSP;
 import csp.Variable;
 import exceptions.UnsolvableProblem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import problems.CSPEncoding;
 import problems.Problem;
 
 import java.io.InvalidClassException;
@@ -26,19 +24,14 @@ public class BackTrackerAgent extends CSPAgent {
     }
 
     @Override
-    public @NotNull List<Variable<Object>> findSolution() throws UnsolvableProblem {
-        return backtracking();
-    }
+    public void ensureKConsistency(int k) throws UnsolvableProblem {}  // This agent does not perform pre-processing.
 
     /**
      * Backtrack on the space of the solutions.
      *
      * @return A solution, i.e. a consistent and complete assignment for every variable.
      */
-    private @NotNull List<Variable<Object>> backtracking() throws UnsolvableProblem {
-        @SuppressWarnings("unchecked")  // We check it in the constructor.
-        CSP<Object> csp = ((CSPEncoding<Object>)this.problem).asCSP();
-
+    public @NotNull List<Variable<Object>> solve() throws UnsolvableProblem {
         List<Variable<Object>> assignment = new ArrayList<>(csp.variables);
         List<Set<Object>> domains = new ArrayList<>(csp.variables.size());
         domains.addAll(csp.variables.stream().map(v -> new HashSet<>(v.domain)).collect(Collectors.toList()));

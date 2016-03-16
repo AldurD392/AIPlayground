@@ -68,4 +68,42 @@ public class Constraint<T> {
 
         return false;
     }
+
+    /**
+     * Return true if given value is allowed for given variable v.
+     *
+     * @param v A variable.
+     * @param value A value for this variable.
+     * @param k The maximum number of constrained variables to be considered at one time.
+     * @return True is the value is allowed for this variable.
+     */
+    public boolean valueIsAllowed(Variable<T> v, T value, int k) {
+        assert k >= 1 && k <= 2;  // TODO: we only support arc consistency for now.
+        final Integer index = this.variables.get(v);
+        assert index != null;
+
+        if (k == 1) {
+            for (final T[] allowed_values : allowed_assignments) {
+                if (allowed_values[index] == value) {
+                    return true;
+                }
+            }
+        } else if (k == 2) {
+            for (Map.Entry<Variable<T>, Integer> entry : variables.entrySet()) {
+                final Variable<T> y = entry.getKey();
+                final Integer y_index = entry.getValue();
+                if (y.equals(v)) {
+                    continue;
+                }
+
+                for (final T[] allowed_values : allowed_assignments) {
+                    if (allowed_values[index] == value && y.domain.contains(allowed_values[y_index])) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 }
