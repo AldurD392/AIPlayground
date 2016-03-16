@@ -2,8 +2,7 @@ package csp;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * A constraint in the CSP representation of the problem.
@@ -13,8 +12,7 @@ public class Constraint<T> {
     /**
      * An array of variables.
      */
-    @NotNull
-    public final ArrayList<Variable<T>> variables;
+    public final @NotNull HashMap<Variable<T>, Integer> variables;
 
     /**
      * A matrix of allowed assignments.
@@ -31,7 +29,10 @@ public class Constraint<T> {
         assert allowed_assignments.length > 0;
         assert allowed_assignments[0].length == variables.size();
 
-        this.variables = variables;
+        this.variables = new HashMap<>();
+        for (int i = 0; i < variables.size(); i++) {
+            this.variables.put(variables.get(i), i);
+        }
         this.allowed_assignments = allowed_assignments;
     }
 
@@ -41,15 +42,16 @@ public class Constraint<T> {
      * @return True if the assignment is consistent.
      */
     public boolean isConsistent(@NotNull List<Variable<T>> assignment) {
-        if (assignment.parallelStream().filter(v -> (v.value != null) && variables.contains(v)).count() == 0) {
+        if (assignment.parallelStream().filter(v -> (v.value != null)
+                && variables.get(v) != null).count() == 0) {
             return true;
         }
 
         for (final T[] allowed_values : allowed_assignments) {
             boolean is_allowed = true;
             for (Variable<T> variable : assignment) {
-                final int index = variables.indexOf(variable);
-                if (index == -1) {
+                final Integer index = this.variables.get(variable);
+                if (index == null) {
                     continue;
                 }
 
