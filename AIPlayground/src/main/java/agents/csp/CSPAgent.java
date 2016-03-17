@@ -21,6 +21,11 @@ public abstract class CSPAgent extends Agent {
      */
     protected final @NotNull CSP<Object> csp;
 
+    /**
+     * Keep a reference to the problem, as a CSP encoding.
+     */
+    protected final @NotNull CSPEncoding<Object> csp_problem;
+
     public CSPAgent(@NotNull Problem problem) throws InvalidClassException {
         super(problem);
 
@@ -31,6 +36,7 @@ public abstract class CSPAgent extends Agent {
 
         @SuppressWarnings("unchecked")  // We check it.
         final CSPEncoding<Object> csp_problem = (CSPEncoding<Object>) problem;
+        this.csp_problem = csp_problem;
         this.csp = csp_problem.asCSP();
     }
 

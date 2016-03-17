@@ -206,6 +206,22 @@ public class NQueens extends Problem implements
         return new CSP<>(variables, constraints);
     }
 
+    @NotNull
+    @Override
+    public State stateFromCSP(@NotNull List<Variable<Integer>> assignment) {
+        assert assignment.size() == n;
+        final int[] positions = new int[n];
+
+        int i = 0;
+        for (Variable<Integer> v : assignment) {
+            assert v.value != null;
+            positions[i] = v.value;
+            i++;
+        }
+
+        return new NQueensState(positions);
+    }
+
     /**
      * An action, for this problem, consists of moving a single queen through
      * her column on the chessboard, up to a specified row.

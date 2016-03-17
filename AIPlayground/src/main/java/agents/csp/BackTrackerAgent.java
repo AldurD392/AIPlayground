@@ -5,6 +5,7 @@ import exceptions.UnsolvableProblem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import problem_elements.State;
 import problems.Problem;
 
 import java.io.InvalidClassException;
@@ -80,7 +81,16 @@ public class BackTrackerAgent extends CSPAgent {
             final List<Variable<Object>> assignment = this.findSolution();
             output.append(String.format("%s found a solution: ", this.getClass().getSimpleName()));
             output.append(Arrays.toString(assignment.toArray()));
-            // TODO: better print of assignment.
+            output.append("\n");
+
+            final State final_state = this.csp_problem.stateFromCSP(assignment);
+            output.append(String.format("The corresponding state is: %s", final_state));
+            if (problem.isGoal(final_state)) {
+                output.append(" [solution]");
+            } else {
+                output.append(" [NOT solution]");
+            }
+
             output.append("\n");
         } catch (UnsolvableProblem e) {
             output.append(e.toString());
