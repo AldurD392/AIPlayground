@@ -3,6 +3,7 @@ package problems;
 import csp.CSP;
 import csp.Variable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import problem_elements.State;
 
 import java.util.List;
@@ -16,9 +17,9 @@ public interface CSPEncoding<T> {
      * Allow problems to return a CSP representation.
      *
      * @return A CSP representation.
+     * @param initial_state A possibly null initial state.
      */
-    @NotNull
-    CSP<T> asCSP();
+    CSP<T> asCSP(@Nullable State initial_state);
 
     /**
      * Allow problems to return a state from the variables they

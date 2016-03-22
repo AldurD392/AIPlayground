@@ -37,7 +37,7 @@ public abstract class CSPAgent extends Agent {
         @SuppressWarnings("unchecked")  // We check it.
         final CSPEncoding<Object> csp_problem = (CSPEncoding<Object>) problem;
         this.csp_problem = csp_problem;
-        this.csp = csp_problem.asCSP();
+        this.csp = csp_problem.asCSP(problem.buildRandomState());
     }
 
     /**

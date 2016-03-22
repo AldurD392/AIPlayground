@@ -4,6 +4,7 @@ import csp.CSP;
 import csp.Constraint;
 import csp.Variable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import problem_elements.Action;
 import problem_elements.State;
 
@@ -137,9 +138,10 @@ public class NQueens extends Problem implements
 
     /**
      * @return the NQueens problem as a CSP.
+     * @param initial_state Ignored.
      */
     @Override
-    public @NotNull CSP<Integer> asCSP() {
+    public CSP<Integer> asCSP(@Nullable State initial_state) {
         final List<Integer> defaultDomain = Arrays.asList(IntStream.range(0, n)
                 .boxed().toArray(Integer[]::new));
 

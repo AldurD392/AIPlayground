@@ -88,7 +88,7 @@ public class PropagatorAgent extends BackTrackerAgent {
             Object value = iterator.next();
             if (!c.valueIsAllowed(v, value, k)) {
                 iterator.remove();
-                logger.debug("Removed values {} from domain of variable '{}' -> {}.",
+                logger.debug("Removed value '{}' from domain of variable '{}' -> {}.",
                         value, v, Arrays.toString(v.domain.toArray()));
                 removed = true;
             }
